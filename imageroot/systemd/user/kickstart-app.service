@@ -4,9 +4,9 @@
 #
 
 [Unit]
-Description=Podman  kickstart-app.service
-BindsTo=kickstart.service
-After=kickstart.service postgresql-app.service
+Description=Podman  firefly-app.service
+BindsTo=firefly.service
+After=firefly.service postgresql-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
@@ -16,21 +16,21 @@ WorkingDirectory=%S/state
 Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/mkdir -p config
-ExecStartPre=/bin/rm -f %t/kickstart-app.pid %t/kickstart-app.ctr-id
+ExecStartPre=/bin/rm -f %t/firefly-app.pid %t/firefly-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
-ExecStart=/usr/bin/podman run --conmon-pidfile %t/kickstart-app.pid \
-    --cidfile %t/kickstart-app.ctr-id --cgroups=no-conmon \
-    --pod-id-file %t/kickstart.pod-id --replace -d --name  kickstart-app \
-    --volume kickstart-app:/var/www/html/:Z \
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/firefly-app.pid \
+    --cidfile %t/firefly-app.ctr-id --cgroups=no-conmon \
+    --pod-id-file %t/firefly.pod-id --replace -d --name  firefly-app \
+    --volume firefly-app:/var/www/html/:Z \
     --volume ./config:/tmp:Z \
     --env=NGINX_* \
-    --env 'CONFIG_DATABASE_URI="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/kickstart"' \
+    --env 'CONFIG_DATABASE_URI="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/firefly"' \
     ${NGINX_IMAGE}
-ExecStop=/usr/bin/podman stop --ignore --cidfile %t/kickstart-app.ctr-id -t 10
-ExecReload=/usr/bin/podman kill -s HUP kickstart-app
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/firefly-app.ctr-id -t 10
+ExecReload=/usr/bin/podman kill -s HUP firefly-app
 SyslogIdentifier=%u
-ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/kickstart-app.ctr-id
-PIDFile=%t/kickstart-app.pid
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/firefly-app.ctr-id
+PIDFile=%t/firefly-app.pid
 Type=forking
 
 [Install]
