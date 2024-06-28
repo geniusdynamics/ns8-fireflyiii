@@ -23,8 +23,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/firefly-app.pid \
     --pod-id-file %t/firefly.pod-id --replace -d --name  firefly-app \
     --env-file=%S/state/app.env \
     --volume firefly_iii_upload:/var/www/html/storage/upload/:Z \
-    --env \
-    ${FIREFLY_III_IMAGE}
+    ${CORE_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/firefly-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP firefly-app
 SyslogIdentifier=%u
