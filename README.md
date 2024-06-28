@@ -8,8 +8,10 @@ To start a new module from it:
 ## Install
 
 Instantiate the module with:
-
-    add-module ghcr.io/geniusdynamics/firefly:latest 1
+```shell
+ add-module ghcr.io/geniusdynamics/firefly:latest 1
+```
+   
 
 The output of the command will return the instance name.
 Output example:
@@ -45,22 +47,27 @@ The above command will:
 ## Get the configuration
 You can retrieve the configuration with
 
-```
+```shell
 api-cli run get-configuration --agent module/firefly1
 ```
 
 ## Uninstall
 
 To uninstall the instance:
-
+```shell
     remove-module --no-preserve firefly1
+```
+
 
 ## Update
 
 To Update the instance:
 
-    api-cli run update-module --data '{"module_url":"ghcr.io/geniusdynamics/firefly:latest","instances":["firefly1"],"force":true}'
+```shell
+ api-cli run update-module --data '{"module_url":"ghcr.io/geniusdynamics/firefly:latest","instances":["firefly1"],"force":true}'
 
+```
+   
 ## Smarthost setting discovery
 
 Some configuration settings, like the smarthost setup, are not part of the
