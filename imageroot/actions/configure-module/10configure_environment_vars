@@ -47,6 +47,7 @@ app = {
     "APP_URL": "https://"+APP_URL,
     "DB_CONNECTION": "pgsql",
     "DB_PORT": "5432",
+    "TRUSTED_PROXIES": "*",
 }
 
 agent.write_envfile("app.env", app)
