@@ -27,9 +27,7 @@ podman run \
     --volume=./restore:/docker-entrypoint-initdb.d/:Z \
     --volume=postgres-data:/var/lib/postgresql/data:Z \
     --replace --name=restore_db \
-    --env POSTGRES_USER=postgres \
-    --env POSTGRES_PASSWORD=Nethesis,1234 \
-    --env POSTGRES_DB=firefly \
+    --env-file=database.env \
     --env TZ=UTC \
     "${POSTGRES_IMAGE}" < firefly.pg_dump
 
