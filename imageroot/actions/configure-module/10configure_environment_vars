@@ -21,7 +21,6 @@ APP_URL = data.get("host", "")
 app = {
     "APP_URL": "https://"+APP_URL,
 }
-
-agent.write_envfile("app.env", app)
+agent.write_envfile("app_config.env", app)
 
 #agent.dump_env()

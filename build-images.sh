@@ -14,6 +14,7 @@ images=()
 repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="firefly"
+firefly_version="version-6.2.20"
 
 # Create a new empty container image
 container=$(buildah from scratch)
@@ -45,7 +46,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.authorizations=traefik@node:routeadm" \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/postgres:15.5-alpine3.19 docker.io/fireflyiii/core:latest" \
+    --label="org.nethserver.images=docker.io/postgres:15.5-alpine3.19 docker.io/fireflyiii/core:$firefly_version" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
