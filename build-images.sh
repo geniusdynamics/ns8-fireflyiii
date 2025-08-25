@@ -14,7 +14,7 @@ images=()
 repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="firefly"
-firefly_version="version-6.2.20"
+firefly_version="version-6.3.2"
 
 # Create a new empty container image
 container=$(buildah from scratch)
