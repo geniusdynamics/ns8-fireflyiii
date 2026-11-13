@@ -18,7 +18,7 @@ reponame="firefly"
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
 # renovate: datasource=docker packageName=docker.io/fireflyiii/core
-firefly_version=version-6.5.4
+firefly_version=version-6.7.9
 
 # Create a new empty container image
 container=$(buildah from scratch)
