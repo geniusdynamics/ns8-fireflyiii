@@ -14,7 +14,11 @@ images=()
 repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="firefly"
-firefly_version="version-6.7.9"
+# Node.js 25+ no longer ships Corepack, install it from npm
+# renovate: datasource=npm packageName=corepack
+corepack_version=0.36.0
+# renovate: datasource=docker packageName=docker.io/fireflyiii/core
+firefly_version=version-6.7.9
 
 # Create a new empty container image
 container=$(buildah from scratch)
@@ -22,7 +26,8 @@ container=$(buildah from scratch)
 # Reuse existing nodebuilder-firefly container, to speed up builds
 if ! buildah containers --format "{{.ContainerName}}" | grep -q nodebuilder-firefly; then
     echo "Pulling NodeJS runtime..."
-    buildah from --name nodebuilder-firefly -v "${PWD}:/usr/src:Z" docker.io/library/node:lts
+    buildah from --name nodebuilder-firefly -v "${PWD}:/usr/src:Z" docker.io/library/node:26.13.0-slim
+    buildah run nodebuilder-firefly sh -c "npm install -g corepack@${corepack_version} && corepack enable"
 fi
 
 echo "Build static UI files with node..."
@@ -46,7 +51,8 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.authorizations=traefik@node:routeadm" \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/postgres:15.5-alpine3.19 docker.io/fireflyiii/core:$firefly_version" \
+    --label="org.nethserver.min-core=3.0.0" \
+    --label="org.nethserver.images=docker.io/postgres:15.20-alpine3.24 docker.io/fireflyiii/core:$firefly_version" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
