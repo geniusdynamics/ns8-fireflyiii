@@ -17,7 +17,8 @@ reponame="firefly"
 # Node.js 25+ no longer ships Corepack, install it from npm
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
-firefly_version="version-6.5.4"
+# renovate: datasource=docker packageName=docker.io/fireflyiii/core
+firefly_version=version-6.5.4
 
 # Create a new empty container image
 container=$(buildah from scratch)
